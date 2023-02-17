@@ -6,7 +6,7 @@
 /*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 07:59:38 by tpicoule          #+#    #+#             */
-/*   Updated: 2023/02/16 13:10:13 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:07:04 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	main(int argc, char **argv, char **env)
 	{
 		value->argu = funct_split(argv[value->i++], ' ');
 		value->path = ft_find_path(env, value->argu[0], value);
+		if (!value->path)
+			return (write (1, "Error path\n", 11), 1);
 		ft_cmd(env, value, pipefd);
 	}
 	value->argu = funct_split(argv[value->i], ' ');

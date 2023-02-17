@@ -6,11 +6,24 @@
 /*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:26:55 by tpicoule          #+#    #+#             */
-/*   Updated: 2023/02/16 13:12:37 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:06:28 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	ft_freegoodpath(t_pipex *value)
+{
+	int		i;
+
+	i = 0;
+	if (value->goodpath)
+	{
+		while (value->goodpath[i])
+			free(value->goodpath[i++]);
+		free(value->goodpath);
+	}
+}
 
 char	*ft_find_path(char **env, char *cmd, t_pipex *value)
 {
@@ -36,12 +49,9 @@ char	*ft_find_path(char **env, char *cmd, t_pipex *value)
 		test = access(value->newenv, F_OK);
 	}
 	i = 0;
-	if (value->goodpath)
-	{
-		while (value->goodpath[i])
-			free(value->goodpath[i++]);
-		free(value->goodpath);
-	}
+	ft_freegoodpath(value);
+	if (test == -1)
+		return (write(1, "Error path\n", 11), free(value->newenv), NULL);
 	return (value->newenv);
 }
 

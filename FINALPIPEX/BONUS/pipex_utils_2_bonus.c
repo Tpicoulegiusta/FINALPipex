@@ -6,16 +6,28 @@
 /*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:26:55 by tpicoule          #+#    #+#             */
-/*   Updated: 2023/02/16 13:13:00 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:04:42 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
+void	ft_freegoodpath(t_pipex *value)
+{
+	int		i;
+
+	i = 0;
+	if (value->goodpath)
+	{
+		while (value->goodpath[i])
+			free(value->goodpath[i++]);
+		free(value->goodpath);
+	}
+}
+
 char	*ft_find_path(char **env, char *cmd, t_pipex *value)
 {
 	int		i;
-	int		test;
 
 	i = -1;
 	while (env[++i])
@@ -26,23 +38,20 @@ char	*ft_find_path(char **env, char *cmd, t_pipex *value)
 	}
 	value->newenv = ft_substr(env[i], 5, ft_strlen(env[i]));
 	value->goodpath = funct_split(value->newenv, ':');
-	i = -1;
-	test = 42;
-	while (test != 0 && value->goodpath[++i])
-	{
-		if (test != 0)
-			free(value->newenv);
-		value->newenv = ft_strjoin(value->goodpath[i], cmd);
-		test = access(value->newenv, F_OK);
-	}
+	free (value->newenv);
 	i = 0;
-	if (value->goodpath)
+	while (value->goodpath[i])
 	{
-		while (value->goodpath[i])
-			free(value->goodpath[i++]);
-		free(value->goodpath);
+		value->newenv = ft_strjoin(value->goodpath[i++], cmd);
+		if (access(value->newenv, F_OK) == 0)
+		{
+			ft_freegoodpath(value);
+			return (value->newenv);
+		}
+		free (value->newenv);
 	}
-	return (value->newenv);
+	ft_freegoodpath(value);
+	return (NULL);
 }
 
 size_t	ft_strlen(char *str)

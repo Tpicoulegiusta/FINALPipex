@@ -6,7 +6,7 @@
 /*   By: tpicoule <tpicoule@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 09:58:41 by tpicoule          #+#    #+#             */
-/*   Updated: 2023/02/16 13:05:06 by tpicoule         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:08:25 by tpicoule         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ char	*ft_substr(char *s, int start, int end);
 char	*ft_find_path(char **env, char *cmd, t_pipex *value);
 size_t	ft_strlen(char *str);
 char	*ft_strjoinfree(char *stock, char *tmp);
+void	ft_freegoodpath(t_pipex *value);
+void	ft_freepathargu(t_pipex *value);
 
 #endif
